@@ -1,28 +1,51 @@
-import { useState } from 'react'
-import logo from './img/logo.png'
-import './App.css'
-import pokemonsJson from './pokemon.json'
+
+import React, { useState, useEffect } from 'react';
+import logo from './img/logo.png';
+import './App.css';
+import pokemons from './pokemon.json';
+import PokemonCard from './PokemonCard';
 import Modal from 'react-modal'
 
 function App() {
-  const { pokemon: originalPokemonList } = pokemonsJson;
-  const [pokemons, setPokemons] = useState(originalPokemonList);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedOption, setSelectedOption] = useState('opcao1');
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    setPokemons(
-      originalPokemonList.filter((item) =>
-        item.name.toLowerCase().includes(event.target.value.toLowerCase())
-      )
-    );
+  useEffect(() => {
+    setFilteredPokemons(pokemons.pokemon); // Mostra todos os Pokémon ao carregar a página
+  }, []);
+
+  const filter = (value) => {
+    if (selectedOption === 'opcao1') {
+      setFilteredPokemons(pokemons.pokemon.filter(item => item.type.includes(value)));
+    } else if (selectedOption === 'opcao2') {
+      setFilteredPokemons(pokemons.pokemon.filter(item => item.name.toLowerCase().includes(value.toLowerCase())));
+    } else if (selectedOption === 'opcao3') {
+      const id = parseInt(value, 10);
+      if (!isNaN(id)) {
+        setFilteredPokemons(pokemons.pokemon.filter(item => parseInt(item.num, 10) === id));
+      } else {
+        setFilteredPokemons(pokemons.pokemon);
+      }
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSearchChange = (event) => {
     event.preventDefault();
-    alert(`Você pesquisou por: ${searchTerm}`);
-    // alert(`Opção selecionada: ${selectedOption}`);
+    setSearchTerm(event.target.value);
+    filter(event.target.value.trim()); // Chama a função de filtro ao alterar o campo de pesquisa
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    filter(searchTerm.trim());
+  };
+
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+    setSearchTerm(''); // Limpar o campo de pesquisa ao selecionar a opção de pesquisa por ID
+    filter('');
   };
 
   const openModal = (pokemon) => {
@@ -40,7 +63,7 @@ function App() {
       </div>
       <div className="App">
         <h1>Pesquisar</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSearchSubmit}>
           <label>
             Digite sua pesquisa:
             <input
@@ -51,17 +74,26 @@ function App() {
               required
             />
           </label>
+          <label>
+            Selecione uma opção:
+            <select value={selectedOption} onChange={handleSelectChange}>
+              <option value="opcao1">Filtrar por Tipo</option>
+              <option value="opcao2">Filtrar por Nome</option>
+              <option value="opcao3">Filtrar por ID</option>
+            </select>
+          </label>
           <input type="submit" value="Pesquisar" />
         </form>
-        <div>
-          {pokemons.length !== 0 &&
-            pokemons.map((item, index) => (
-              <div className="card" key={index} onClick={() => openModal(item)}>
-                <img src={item.img} alt={item.name} />
-                <span>Nome: {item.name}</span>
-              </div>
-            ))}
-        </div>
+      </div>
+
+      <div className="container">
+        <ul className="pokemon-list">
+          {filteredPokemons.map((item) => (
+            <li key={item.num} onClick={() => openModal(item)}>
+              <PokemonCard pokemon={item} />
+            </li>
+          ))}
+        </ul>
       </div>
 
       <Modal
@@ -84,3 +116,4 @@ function App() {
 }
 
 export default App;
+
