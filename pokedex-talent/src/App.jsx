@@ -1,79 +1,77 @@
-import { useState } from 'react'
-import logo from './img/logo.png'
-import './App.css'
-import pokemons from './pokemon.json'
-//console.log(pokemons)
+import React, { useState, useEffect } from 'react';
+import logo from './img/logo.png';
+import './App.css';
+import pokemons from './pokemon.json';
+import PokemonCard from './PokemonCard';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedOption, setSelectedOption] = useState('opcao1'); // Estado para armazenar a opção selecionada no select
-
-  const [pokemon, setPokemon] = useState(pokemons); 
-
+  const [selectedOption, setSelectedOption] = useState('opcao1');
+  const [pokemon, setPokemon] = useState([]);
   const [filteredPokemons, setFilteredPokemons] = useState([]);
 
-  console.log(setPokemon)
+  useEffect(() => {
+    setPokemon(pokemons.pokemon);
+  }, []);
 
-  const filter = (type) => {
-    setFilteredPokemons(pokemon.filter(item => item.type === type));
+  const filter = (value) => {
+    if (selectedOption === 'opcao1') {
+      setFilteredPokemons(pokemon.filter(item => item.type.includes(value)));
+    } else if (selectedOption === 'opcao2') {
+      setFilteredPokemons(pokemon.filter(item => item.name.toLowerCase().includes(value.toLowerCase())));
+    } else if (selectedOption === 'opcao3') {
+      const id = parseInt(value, 10);
+      if (!isNaN(id)) {
+        setFilteredPokemons(pokemon.filter(item => item.num === id));
+      } else {
+        setFilteredPokemons([]);
+      }
+    }
   };
-  
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+
+    if (selectedOption === 'opcao3') {
+      filter(searchTerm.trim());
+    } else {
+      setFilteredPokemons([]);
+    }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert(`Você pesquisou por: ${searchTerm}`);
-    alert(`Opção selecionada: ${selectedOption}`);
-    // Aqui você pode enviar o valor de searchTerm e selectedOption para o backend para realizar a pesquisa e utilizar a opção selecionada.
-    // Por exemplo, usando uma biblioteca de requisições HTTP, como Axios.
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+    filter(searchTerm.trim());
   };
 
   return (
     <>
-    
-    <ul>
-        {setFilteredPokemons.length !== 0 ?
-            (filteredPokemons.map((item) => (
-                  <li
-                    className="menu-item"
-                    onClick={() => filter(item)}
-                    key={item.id}
-                  >
-                    <span>{item.name}</span>
-                    <img src={item.image} />
-                  </li>
-                )))
-                : (pokemon.map((item) => (
-                  <li
-                    className="menu-item"
-                    onClick={() => filter(item)}
-                    key={item.id}
-                  >
+      <div className="container">
+        <ul className="pokemon-list">
+          {filteredPokemons.length !== 0
+            ? filteredPokemons.map((item) => (
+                <li key={item.num}>
+                  <PokemonCard pokemon={item} />
+                </li>
+              ))
+            : pokemon.map((item) => (
+                <li key={item.num}>
+                  <PokemonCard pokemon={item} />
+                </li>
+              ))}
+        </ul>
+      </div>
 
-                    <span >{item.name}</span>
-                    <img src={item.image} />
-
-                  </li>
-                )))
-              }
-            </ul>
-
-
-
-  
       <div>
         <img src={logo} className="logo" alt="logo" />
       </div>
       <div className="App">
         <h1>Pesquisar</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSearchSubmit}>
           <label>
             Digite sua pesquisa:
             <input
@@ -87,10 +85,9 @@ function App() {
           <label>
             Selecione uma opção:
             <select value={selectedOption} onChange={handleSelectChange}>
-              <option value="opcao1">Opção 1</option>
-              <option value="opcao2">Opção 2</option>
-              <option value="opcao3">Opção 3</option>
-              <option value="opcao4">Opção 4</option>
+              <option value="opcao1">Filtrar por Tipo</option>
+              <option value="opcao2">Filtrar por Nome</option>
+              <option value="opcao3">Filtrar por ID</option>
             </select>
           </label>
           <input type="submit" value="Pesquisar" />
@@ -99,9 +96,5 @@ function App() {
     </>
   );
 }
-
-
-
-
 
 export default App;
