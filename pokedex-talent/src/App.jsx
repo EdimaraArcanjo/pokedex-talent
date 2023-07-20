@@ -4,6 +4,8 @@ import './App.css';
 import pokemons from './pokemon.json';
 import PokemonCard from './PokemonCard';
 
+//teste
+
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOption, setSelectedOption] = useState('opcao1');
