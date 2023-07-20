@@ -10,9 +10,12 @@ function App() {
   const [pokemon, setPokemon] = useState([]);
   const [filteredPokemons, setFilteredPokemons] = useState([]);
 
+
   useEffect(() => {
     setPokemon(pokemons.pokemon);
   }, []);
+
+
 
   const filter = (value) => {
     if (selectedOption === 'opcao1') {
@@ -48,23 +51,19 @@ function App() {
     filter(searchTerm.trim());
   };
 
+  const handleSortChange = (event) => {
+    const sortOption = event.target.value;
+    let listToSort = filteredPokemons.length !== 0 ? [...pokemon] : [...pokemon];
+
+    if (sortOption === 'opcao1') {
+      setFilteredPokemons([...listToSort].sort((a, b) => a.name.localeCompare(b.name))); // Ordena de A a Z pelo nome
+    } else if (sortOption === 'opcao2') {
+      setFilteredPokemons([...listToSort].sort((a, b) => parseInt(a.num) - parseInt(b.num))); // Ordena numericamente
+    }
+  };
+
   return (
     <>
-      <div className="container">
-        <ul className="pokemon-list">
-          {filteredPokemons.length !== 0
-            ? filteredPokemons.map((item) => (
-                <li key={item.num}>
-                  <PokemonCard pokemon={item} />
-                </li>
-              ))
-            : pokemon.map((item) => (
-                <li key={item.num}>
-                  <PokemonCard pokemon={item} />
-                </li>
-              ))}
-        </ul>
-      </div>
 
       <div>
         <img src={logo} className="logo" alt="logo" />
@@ -91,7 +90,31 @@ function App() {
             </select>
           </label>
           <input type="submit" value="Pesquisar" />
+
+          <label>
+            ordenação:
+            <select onChange={handleSortChange}>
+              <option value="">Selecione</option>
+              <option value="opcao1">A - Z</option>
+              <option value="opcao2">Numérica</option>
+            </select>
+          </label>
         </form>
+      </div>
+      <div className="container">
+        <ul className="pokemon-list">
+          {filteredPokemons.length !== 0
+            ? filteredPokemons.map((item) => (
+                <li key={item.num}>
+                  <PokemonCard pokemon={item} />
+                </li>
+              ))
+            : pokemon.map((item) => (
+                <li key={item.num}>
+                  <PokemonCard pokemon={item} />
+                </li>
+              ))}
+        </ul>
       </div>
     </>
   );
