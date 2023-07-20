@@ -105,7 +105,10 @@ function App() {
           <>
             <h2>Detalhes do Pokémon</h2>
             <img src={selectedPokemon.img} alt={selectedPokemon.name} />
-            <span>Nome: {selectedPokemon.name}</span>
+            <div>Nome: {selectedPokemon.name}</div>
+            <div>Sobre: {selectedPokemon.about}</div>
+            <div>Peso: {selectedPokemon.size.weight} </div>
+            <div>Altura: {selectedPokemon.size.height} </div>
             {/* Adicione outras informações do Pokémon aqui */}
             <button onClick={closeModal}>Fechar</button>
           </>
