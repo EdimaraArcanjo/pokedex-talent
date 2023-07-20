@@ -3,6 +3,130 @@ import logo from './img/logo.png';
 import './App.css';
 import pokemons from './pokemon.json';
 import PokemonCard from './PokemonCard';
+import Modal from 'react-modal';
+import CardModal from './CardModal';
+
+function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedOption, setSelectedOption] = useState('opcao1');
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  // Passo 1: Adicione variáveis de estado para a paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Ajuste o número de itens por página conforme necessário
+
+  useEffect(() => {
+    // Passo 2: Modifique o código existente para filtrar os Pokémon com base nas opções selecionadas
+    if (selectedOption === 'opcao1') {
+      setFilteredPokemons(pokemons.pokemon.filter(item => item.type.includes(searchTerm)));
+    } else if (selectedOption === 'opcao2') {
+      setFilteredPokemons(pokemons.pokemon.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())));
+    } else if (selectedOption === 'opcao3') {
+      const id = parseInt(searchTerm, 10);
+      if (!isNaN(id)) {
+        setFilteredPokemons(pokemons.pokemon.filter(item => parseInt(item.num, 10) === id));
+      } else {
+        setFilteredPokemons(pokemons.pokemon);
+      }
+    }
+  }, [searchTerm, selectedOption]);
+
+  // Passo 3: Crie uma função para lidar com a lógica da paginação
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Passo 4: Calcule o número total de páginas
+  const totalPages = Math.ceil(filteredPokemons.length / itemsPerPage);
+
+  // Passo 5: Defina a lógica para renderizar apenas os Pokémon da página atual
+  const indexOfLastPokemon = currentPage * itemsPerPage;
+  const indexOfFirstPokemon = indexOfLastPokemon - itemsPerPage;
+  const currentPokemons = filteredPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
+
+  // Passo 6: Crie as funções para lidar com a pesquisa e seleção de opções
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    filter(searchTerm.trim());
+  };
+
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+    setSearchTerm('');
+  };
+
+   // Função para abrir o modal e definir o Pokémon selecionado
+   const openModal = (pokemon) => {
+    setSelectedPokemon(pokemon);
+  };
+
+  // Função para fechar o modal e limpar o Pokémon selecionado
+  const closeModal = () => {
+    setSelectedPokemon(null);
+  };
+
+  return (
+    <>
+    <div>
+        <img src={logo} className="logo" alt="logo" />
+      </div>
+      <div className="App">
+        <form onSubmit={handleSearchSubmit}>
+          <label>
+            Pesquise por nome, tipo ou ID:
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Digite aqui..."
+              required
+            />
+          </label>
+          <label>
+            Filtrar por:
+            <select value={selectedOption} onChange={handleSelectChange}>
+              <option value="opcao1">Tipo</option>
+              <option value="opcao2">Nome</option>
+              <option value="opcao3">ID</option>
+            </select>
+          </label>
+          <input type="submit" value="Resultado" />
+        </form>
+      </div>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button key={index} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
+      <div className="container">
+        <ul className="pokemon-list">
+          {currentPokemons.map((item) => (
+            <li key={item.num} onClick={() => openModal(item)}>
+              <PokemonCard pokemon={item} />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <CardModal selectedPokemon={selectedPokemon} closeModal={closeModal} />
+    </>
+  );
+}
+
+export default App;
+
+/*
+import React, { useState, useEffect } from 'react';
+import logo from './img/logo.png';
+import './App.css';
+import pokemons from './pokemon.json';
+import PokemonCard from './PokemonCard';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,9 +171,6 @@ function App() {
 
   return (
     <>
-     <div>
-        <img src={logo} className="logo" alt="logo" />
-      </div>
       <div className="App">
         <h1>Pesquisar</h1>
         <form onSubmit={handleSearchSubmit}>
@@ -84,8 +205,13 @@ function App() {
           ))}
         </ul>
       </div>
+
+      <div>
+        <img src={logo} className="logo" alt="logo" />
+      </div>
     </>
   );
 }
 
 export default App;
+*/
