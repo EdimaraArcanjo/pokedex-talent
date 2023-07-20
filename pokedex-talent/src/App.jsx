@@ -11,6 +11,8 @@ function App() {
   const [selectedOption, setSelectedOption] = useState('opcao1');
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [allPokemons, setAllPokemons] = useState([pokemons]);
+  console.log("ddd", filteredPokemons)
 
   // Passo 1: Adicione variáveis de estado para a paginação
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,6 +72,20 @@ function App() {
     setSelectedPokemon(null);
   };
 
+  const handleSortChange = (event) => {
+    const sortOption = event.target.value;
+    let listToSort = filteredPokemons.length !== 0 ? [...filteredPokemons] : [...pokemons.pokemon];
+  
+    if (sortOption === 'opcao1') {
+      // Ordena de A a Z pelo nome
+      setFilteredPokemons([...listToSort].sort((a, b) => a.name.localeCompare(b.name)));
+    } else if (sortOption === 'opcao2') {
+      // Ordena de Z a A pelo nome
+      setFilteredPokemons([...listToSort].sort((a, b) => b.name.localeCompare(a.name)));
+    }
+  };
+  
+
   return (
     <>
     <div>
@@ -95,7 +111,14 @@ function App() {
               <option value="opcao3">ID</option>
             </select>
           </label>
-          <input type="submit" value="Resultado" />
+          <label>
+            ordenação:
+            <select onChange={handleSortChange}>
+              <option value="">Selecione</option>
+              <option value="opcao1">A - Z</option>
+              <option value="opcao2">Z - A</option>
+            </select>
+          </label>
         </form>
       </div>
       <div className="pagination">
@@ -107,7 +130,9 @@ function App() {
       </div>
       <div className="container">
         <ul className="pokemon-list">
-          {currentPokemons.map((item) => (
+          {currentPokemons.map((item) => ( 
+
+            
             <li key={item.num} onClick={() => openModal(item)}>
               <PokemonCard pokemon={item} />
             </li>
