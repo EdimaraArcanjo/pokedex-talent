@@ -11,7 +11,6 @@ const PokemonCard = ({ pokemon }) => {
       <p>Type: {pokemon.type.join(', ')}</p>
       <p>Height: {pokemon.size.height}</p>
       <p>Weight: {pokemon.size.weight}</p>
-      {/* Adicione outras informações que você queira exibir aqui */}
     </div>
   );
 };
