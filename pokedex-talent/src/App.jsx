@@ -7,66 +7,47 @@ import PokemonCard from './PokemonCard';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOption, setSelectedOption] = useState('opcao1');
-  const [pokemon, setPokemon] = useState([]);
   const [filteredPokemons, setFilteredPokemons] = useState([]);
 
   useEffect(() => {
-    setPokemon(pokemons.pokemon);
+    setFilteredPokemons(pokemons.pokemon); // Mostra todos os Pokémon ao carregar a página
   }, []);
 
   const filter = (value) => {
     if (selectedOption === 'opcao1') {
-      setFilteredPokemons(pokemon.filter(item => item.type.includes(value)));
+      setFilteredPokemons(pokemons.pokemon.filter(item => item.type.includes(value)));
     } else if (selectedOption === 'opcao2') {
-      setFilteredPokemons(pokemon.filter(item => item.name.toLowerCase().includes(value.toLowerCase())));
+      setFilteredPokemons(pokemons.pokemon.filter(item => item.name.toLowerCase().includes(value.toLowerCase())));
     } else if (selectedOption === 'opcao3') {
       const id = parseInt(value, 10);
       if (!isNaN(id)) {
-        setFilteredPokemons(pokemon.filter(item => item.num === id));
+        setFilteredPokemons(pokemons.pokemon.filter(item => parseInt(item.num, 10) === id));
       } else {
-        setFilteredPokemons([]);
+        setFilteredPokemons(pokemons.pokemon);
       }
     }
   };
 
   const handleSearchChange = (event) => {
+    event.preventDefault();
     setSearchTerm(event.target.value);
+    filter(event.target.value.trim()); // Chama a função de filtro ao alterar o campo de pesquisa
   };
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-
-    if (selectedOption === 'opcao3') {
-      filter(searchTerm.trim());
-    } else {
-      setFilteredPokemons([]);
-    }
+    filter(searchTerm.trim());
   };
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
-    filter(searchTerm.trim());
+    setSearchTerm(''); // Limpar o campo de pesquisa ao selecionar a opção de pesquisa por ID
+    filter('');
   };
 
   return (
     <>
-      <div className="container">
-        <ul className="pokemon-list">
-          {filteredPokemons.length !== 0
-            ? filteredPokemons.map((item) => (
-                <li key={item.num}>
-                  <PokemonCard pokemon={item} />
-                </li>
-              ))
-            : pokemon.map((item) => (
-                <li key={item.num}>
-                  <PokemonCard pokemon={item} />
-                </li>
-              ))}
-        </ul>
-      </div>
-
-      <div>
+     <div>
         <img src={logo} className="logo" alt="logo" />
       </div>
       <div className="App">
@@ -92,6 +73,16 @@ function App() {
           </label>
           <input type="submit" value="Pesquisar" />
         </form>
+      </div>
+
+      <div className="container">
+        <ul className="pokemon-list">
+          {filteredPokemons.map((item) => (
+            <li key={item.num}>
+              <PokemonCard pokemon={item} />
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );
