@@ -1,73 +1,40 @@
 import { useState } from 'react'
 import logo from './img/logo.png'
 import './App.css'
-import pokemons from './pokemon.json'
-//console.log(pokemons)
+import pokemonsJson from './pokemon.json'
+import Modal from 'react-modal'
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedOption, setSelectedOption] = useState('opcao1'); // Estado para armazenar a opção selecionada no select
-
-  const [pokemon, setPokemon] = useState(pokemons); 
-
-  const [filteredPokemons, setFilteredPokemons] = useState([]);
-
-  console.log(setPokemon)
-
-  const filter = (type) => {
-    setFilteredPokemons(pokemon.filter(item => item.type === type));
-  };
-  
+  const { pokemon: originalPokemonList } = pokemonsJson;
+  const [pokemons, setPokemons] = useState(originalPokemonList);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-  };
-
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+    setPokemons(
+      originalPokemonList.filter((item) =>
+        item.name.toLowerCase().includes(event.target.value.toLowerCase())
+      )
+    );
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     alert(`Você pesquisou por: ${searchTerm}`);
-    alert(`Opção selecionada: ${selectedOption}`);
-    // Aqui você pode enviar o valor de searchTerm e selectedOption para o backend para realizar a pesquisa e utilizar a opção selecionada.
-    // Por exemplo, usando uma biblioteca de requisições HTTP, como Axios.
+    // alert(`Opção selecionada: ${selectedOption}`);
+  };
+
+  const openModal = (pokemon) => {
+    setSelectedPokemon(pokemon);
+  };
+
+  const closeModal = () => {
+    setSelectedPokemon(null);
   };
 
   return (
     <>
-    
-    <ul>
-        {setFilteredPokemons.length !== 0 ?
-            (filteredPokemons.map((item) => (
-                  <li
-                    className="menu-item"
-                    onClick={() => filter(item)}
-                    key={item.id}
-                  >
-                    <span>{item.name}</span>
-                    <img src={item.image} />
-                  </li>
-                )))
-                : (pokemon.map((item) => (
-                  <li
-                    className="menu-item"
-                    onClick={() => filter(item)}
-                    key={item.id}
-                  >
-
-                    <span >{item.name}</span>
-                    <img src={item.image} />
-
-                  </li>
-                )))
-              }
-            </ul>
-
-
-
-  
       <div>
         <img src={logo} className="logo" alt="logo" />
       </div>
@@ -84,24 +51,36 @@ function App() {
               required
             />
           </label>
-          <label>
-            Selecione uma opção:
-            <select value={selectedOption} onChange={handleSelectChange}>
-              <option value="opcao1">Opção 1</option>
-              <option value="opcao2">Opção 2</option>
-              <option value="opcao3">Opção 3</option>
-              <option value="opcao4">Opção 4</option>
-            </select>
-          </label>
           <input type="submit" value="Pesquisar" />
         </form>
+        <div>
+          {pokemons.length !== 0 &&
+            pokemons.map((item, index) => (
+              <div className="card" key={index} onClick={() => openModal(item)}>
+                <img src={item.img} alt={item.name} />
+                <span>Nome: {item.name}</span>
+              </div>
+            ))}
+        </div>
       </div>
+
+      <Modal
+        isOpen={selectedPokemon !== null}
+        onRequestClose={closeModal}
+        contentLabel="Detalhes do Pokémon"
+      >
+        {selectedPokemon && (
+          <>
+            <h2>Detalhes do Pokémon</h2>
+            <img src={selectedPokemon.img} alt={selectedPokemon.name} />
+            <span>Nome: {selectedPokemon.name}</span>
+            {/* Adicione outras informações do Pokémon aqui */}
+            <button onClick={closeModal}>Fechar</button>
+          </>
+        )}
+      </Modal>
     </>
   );
 }
-
-
-
-
 
 export default App;
