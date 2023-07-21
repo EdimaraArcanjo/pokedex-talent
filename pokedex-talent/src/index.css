@@ -9,18 +9,22 @@
 .divGeral {
   display: flex;
   flex-direction: column;
+  margin: 0;
 }
 
 .logo {
   width: 40%;
   height: 40%;
+
 }
 
 .inputSearch, .inputSelect {
-  background-color: #d6d6d6;
+  background-color:  #ffe16e;;
   border-radius: 8px;
   padding: 4px;
   margin: 5px;
+  font-family: 'Livvic', sans-serif;
+  color:#242424;
 }
 
 .pagination {
@@ -35,14 +39,15 @@
 }
 
 .form {
-  padding: 10%;
+  margin: 0;
   display: flex;
   flex-direction: column;
+
 }
 
 .container {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 1rem;
   padding: 20px;
 }
 
@@ -70,6 +75,7 @@
   place-items: center;
   font-family: 'Livvic', sans-serif;
   
+  
 }
 
 .pokemon-card:hover {
@@ -85,6 +91,8 @@
 .pokemon-type {
   color: #646cff;
 }
+
+
 
 :root {
   font-family: 'Livvic', sans-serif;
@@ -104,8 +112,6 @@ body {
   min-height: 100vh;
   background-color: #222222;
 }
-
-
 
 button {
   border-radius: 8px;

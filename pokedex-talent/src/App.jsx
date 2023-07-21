@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import logo from './img/logo.png';
 import './App.css';
 import pokemons from './pokemon.json';
@@ -86,9 +86,13 @@ function App() {
     if (sortOption === 'opcao1') {
       // Ordena de A a Z pelo nome
       setFilteredPokemons([...listToSort].sort((a, b) => a.name.localeCompare(b.name)));
+      setFilteredPokemons([...listToSort].sort((a, b) => a.num.localeCompare(b.num)));
     } else if (sortOption === 'opcao2') {
       // Ordena de Z a A pelo nome
       setFilteredPokemons([...listToSort].sort((a, b) => b.name.localeCompare(a.name)));
+      setFilteredPokemons([...listToSort].sort((a, b) => b.num.localeCompare(a.num)));
+
+
     }
   };
 
@@ -101,6 +105,12 @@ function App() {
         </div>
         <div className="App">
           <form className='form' onSubmit={handleSearchSubmit}>
+            <select className="inputSelect" value={selectedOption} onChange={handleSelectChange} required>
+              <option selected value="opcao">Pesquisar por:</option>
+              <option value="opcao1">Tipo</option>
+              <option value="opcao2">Nome</option>
+              <option value="opcao3">ID</option>
+            </select>
             <input className="inputSearch"
               type="text"
               value={searchTerm}
@@ -108,25 +118,17 @@ function App() {
               placeholder="Digite nome, id ou tipo"
               required
             />
-            <select className="inputSelect" value={selectedOption} onChange={handleSelectChange}>
-              <option selected value="opcao">Pesquisar por:</option>
-              <option value="opcao1">Tipo</option>
-              <option value="opcao2">Nome</option>
-              <option value="opcao3">ID</option>
-            </select>
             <select className="inputSelect" onChange={handleSortChange}>
               <option selected value="opcao">Ordenar por:</option>
               <option value="opcao1">A - Z</option>
               <option value="opcao2">Z - A</option>
             </select>
+            <select className="inputSelect" onChange={handleSortChange}>
+              <option selected value="opcao">Ordenar por:</option>
+              <option value="opcao1">1 - 251</option>
+              <option value="opcao2">251- 1</option>
+            </select>
           </form>
-        </div>
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
-              {index + 1}
-            </button>
-          ))}
         </div>
         <div className="container">
           <ul className="pokemon-list">
@@ -145,8 +147,16 @@ function App() {
         </div >
       </div >
 
-
+      <div className="campoCard">
       <CardModal selectedPokemon={selectedPokemon} closeModal={closeModal} />
+      </div>
+      <div className="pagination">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
+              {index + 1}
+            </button>
+          ))}
+        </div>
     </>
   );
 }
