@@ -1,21 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Livvic:wght@300&display=swap');
 
+#root {
+  max-width: 90%;
+  margin: 0 auto;
+
+  text-align: center;
+  background-color: #222222;
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
-
 .divGeral {
   display: flex;
   flex-direction: column;
   margin: 0;
+  max-width: 90%;
 }
 
 .logo {
   width: 40%;
   height: 40%;
-
+  margin-top: 8%;
 }
 
 .inputSearch, .inputSelect {
@@ -30,7 +38,17 @@
 .pagination {
   display: flex;
   justify-content: center;
+  margin-top: 2%;
+  margin-bottom: 4%;
+  max-width: 90%;
 }
+
+.textoFooter {
+  color: #ffe16e;
+  text-align: center;
+  max-width: 80%;
+}
+
 
 .buttonPagination {
   width: 5%;
@@ -42,13 +60,12 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  margin-bottom: 5%;
 
 }
 
 .container {
-  max-width: 600px;
   margin: 0 1rem;
-  padding: 20px;
 }
 
 .pokemon-list {
@@ -61,12 +78,17 @@
   
 }
 
+li {
+  margin: 2%;
+}
+
 .pokemon-card {
   background-color: #f9f9f9;
-  width: 90%;
+  max-width: 90%;
+  min-width: 50%;
   height: 90%;
   color: #222222;
-  padding: 10px;
+  padding: 0.5rem;
   margin-bottom: 2%;
   border-radius: 8px;
   cursor: pointer;
@@ -75,11 +97,13 @@
   place-items: center;
   font-family: 'Livvic', sans-serif;
   
-  
 }
 
 .pokemon-card:hover {
-  background-color: #ebebeb;
+  background-color: #d6d6d6;
+  border-color: red;
+  border-style:outset;
+  transition: scale(10);
 }
 
 .pokemon-name {
@@ -88,29 +112,20 @@
   font-family: 'Livvic', sans-serif;
 }
 
-.pokemon-type {
-  color: #646cff;
-}
-
-
 
 :root {
   font-family: 'Livvic', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 }
 
 body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  
   background-color: #222222;
+  max-width: ;
 }
 
 button {
@@ -132,5 +147,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
   background-color: #ffe16e;
 }
+
 
 
