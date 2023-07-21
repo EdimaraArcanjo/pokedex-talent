@@ -7,31 +7,38 @@ import CardModal from './CardModal';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedOption, setSelectedOption] = useState('opcao1');
+  const [selectedOption, setSelectedOption] = useState('opcao');
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [allPokemons, setAllPokemons] = useState([pokemons]);
-  console.log("ddd", filteredPokemons)
+  const [allPokemons, setAllPokemons] = useState([]);
+
 
   // Passo 1: Adicione variáveis de estado para a paginação
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Ajuste o número de itens por página conforme necessário
 
   useEffect(() => {
-    // Passo 2: Modifique o código existente para filtrar os Pokémon com base nas opções selecionadas
+    setAllPokemons(pokemons.pokemon);
+  }, []);
+
+
+  useEffect(() => {
     if (selectedOption === 'opcao1') {
-      setFilteredPokemons(pokemons.pokemon.filter(item => item.type.includes(searchTerm)));
+      setFilteredPokemons(allPokemons.filter(item => item.type.includes(searchTerm)));
     } else if (selectedOption === 'opcao2') {
-      setFilteredPokemons(pokemons.pokemon.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())));
+      setFilteredPokemons(allPokemons.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())));
     } else if (selectedOption === 'opcao3') {
       const id = parseInt(searchTerm, 10);
       if (!isNaN(id)) {
-        setFilteredPokemons(pokemons.pokemon.filter(item => parseInt(item.num, 10) === id));
+        setFilteredPokemons(allPokemons.filter(item => parseInt(item.num, 10) === id));
       } else {
-        setFilteredPokemons(pokemons.pokemon);
+        setFilteredPokemons(allPokemons);
       }
+    } else {
+      setFilteredPokemons(allPokemons);
     }
-  }, [searchTerm, selectedOption]);
+  }, [searchTerm, selectedOption, allPokemons]);
+
 
   // Passo 3: Crie uma função para lidar com a lógica da paginação
   const paginate = (pageNumber) => {
@@ -39,12 +46,13 @@ function App() {
   };
 
   // Passo 4: Calcule o número total de páginas
-  const totalPages = Math.ceil(filteredPokemons.length / itemsPerPage);
+  const totalPages = Math.ceil(allPokemons.length / itemsPerPage);
 
   // Passo 5: Defina a lógica para renderizar apenas os Pokémon da página atual
   const indexOfLastPokemon = currentPage * itemsPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - itemsPerPage;
   const currentPokemons = filteredPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
+  const listPokemons = allPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
   // Passo 6: Crie as funções para lidar com a pesquisa e seleção de opções
   const handleSearchChange = (event) => {
@@ -87,57 +95,57 @@ function App() {
 
   return (
     <>
-      <div>
-        <img src={logo} className="logo" alt="logo" />
-      </div>
-      <div className="App">
-        <form onSubmit={handleSearchSubmit}>
-          <label>
-            Pesquise por nome, tipo ou ID:
-            <input
+      <div className='divGeral'>
+        <div>
+          <img src={logo} className="logo" alt="logo" />
+        </div>
+        <div className="App">
+          <form className='form' onSubmit={handleSearchSubmit}>
+            <input className="inputSearch"
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
-              placeholder="Digite aqui..."
+              placeholder="Digite nome, id ou tipo"
               required
             />
-          </label>
-          <label>
-            Filtrar por:
-            <select value={selectedOption} onChange={handleSelectChange}>
+            <select className="inputSelect" value={selectedOption} onChange={handleSelectChange}>
+              <option selected value="opcao">Pesquisar por:</option>
               <option value="opcao1">Tipo</option>
               <option value="opcao2">Nome</option>
               <option value="opcao3">ID</option>
             </select>
-          </label>
-          <label>
-            ordenação:
-            <select onChange={handleSortChange}>
-              <option value="">Selecione</option>
+            <select className="inputSelect" onChange={handleSortChange}>
+              <option selected value="opcao">Ordenar por:</option>
               <option value="opcao1">A - Z</option>
               <option value="opcao2">Z - A</option>
             </select>
-          </label>
-        </form>
-      </div>
-      <div className="pagination">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={() => paginate(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-      <div className="container">
-        <ul className="pokemon-list">
-          {currentPokemons.map((item) => (
-
-
-            <li key={item.num} onClick={() => openModal(item)}>
-              <PokemonCard pokemon={item} />
-            </li>
+          </form>
+        </div>
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
+              {index + 1}
+            </button>
           ))}
-        </ul>
-      </div>
+        </div>
+        <div className="container">
+          <ul className="pokemon-list">
+            {filteredPokemons.length !== 0
+              ? currentPokemons.map((item) => (
+                <li key={item.num} onClick={() => openModal(item)}>
+                  <PokemonCard pokemon={item} />
+                </li>
+              ))
+              : listPokemons.map((item) => ( // Renderiza todos os Pokémon quando a lista filtrada estiver vazia
+                <li key={item.num} onClick={() => openModal(item)}>
+                  <PokemonCard pokemon={item} />
+                </li>
+              ))}
+          </ul >
+        </div >
+      </div >
+
+
       <CardModal selectedPokemon={selectedPokemon} closeModal={closeModal} />
     </>
   );
