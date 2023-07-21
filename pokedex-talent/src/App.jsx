@@ -45,13 +45,13 @@ function App() {
   };
 
   // Passo 4: Calcule o número total de páginas
-  const totalPages = Math.ceil(allPokemons.length / itemsPerPage);
-
   // Passo 5: Defina a lógica para renderizar apenas os Pokémon da página atual
   const indexOfLastPokemon = currentPage * itemsPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - itemsPerPage;
   const currentPokemons = filteredPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
   const listPokemons = allPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
+
+  const totalPages = Math.ceil(filteredPokemons.length / itemsPerPage)
 
   // Passo 6: Crie as funções para lidar com a pesquisa e seleção de opções
   const handleSearchChange = (event) => {
@@ -114,16 +114,16 @@ function App() {
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
-              placeholder="Digite nome, id ou tipo"
+              placeholder="Digite nome, ID ou tipo"
               required
             />
             <select className="inputSelect" onChange={handleSortChange}>
-              <option selected value="opcao">Ordenar por:</option>
+              <option selected value="opcao">Ordenar por nome:</option>
               <option value="opcao1">A - Z</option>
               <option value="opcao2">Z - A</option>
             </select>
             <select className="inputSelect" onChange={handleSortChange}>
-              <option selected value="opcao">Ordenar por:</option>
+              <option selected value="opcao">Ordenar por ID:</option>
               <option value="opcao1">1 - 251</option>
               <option value="opcao2">251- 1</option>
             </select>
@@ -147,21 +147,21 @@ function App() {
       </div >
 
       <div className="campoCard">
-      <CardModal selectedPokemon={selectedPokemon} closeModal={closeModal} />
+        <CardModal selectedPokemon={selectedPokemon} closeModal={closeModal} />
       </div>
       <div className="pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
-              {index + 1}
-            </button>
-          ))}
-        </div>
-        <footer>
-          <p className="textoFooter"> Desenvolvido por Bárbara Souza, Edimara Arcanjo, Monique Lupe, Tamires Nascimento, Thalita Nascimento, Tharla Jaroxeski</p>
-          <p className="textoFooter">
-            Desafio da HCL TECH para o Talent Fest - Hackthoon 
-          </p>
-        </footer>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
+      <footer>
+        <p className="textoFooter"> Desenvolvido por Bárbara Souza, Edimara Arcanjo, Monique Lupe, Tamires Nascimento, Thalita Nascimento, Tharla Jaroxeski</p>
+        <p className="textoFooter">
+          Desafio da HCL TECH para o Talent Fest - Hackthoon
+        </p>
+      </footer>
     </>
   );
 }

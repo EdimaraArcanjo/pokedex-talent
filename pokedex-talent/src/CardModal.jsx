@@ -1,17 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
 import './CardModal.css'
+import { colorByType } from './utils';
 
-function colorByType(type) {
-  switch (type) {
-    case "grass":
-      return "green";
-    case "poison":
-      return "purple";
-    default:
-      return "#fff";
-  }
-}
 const CardModal = ({ selectedPokemon, closeModal }) => {
   return (
     <>
