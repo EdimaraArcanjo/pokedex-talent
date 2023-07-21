@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import logo from './img/logo.png';
-import './App.css';
 import pokemons from './pokemon.json';
 import PokemonCard from './PokemonCard';
 import CardModal from './CardModal';
@@ -157,6 +156,12 @@ function App() {
             </button>
           ))}
         </div>
+        <footer>
+          <p className="textoFooter"> Desenvolvido por Bárbara Souza, Edimara Arcanjo, Monique Lupe, Tamires Nascimento, Thalita Nascimento, Tharla Jaroxeski</p>
+          <p className="textoFooter">
+            Desafio da HCL TECH para o Talent Fest - Hackthoon 
+          </p>
+        </footer>
     </>
   );
 }
