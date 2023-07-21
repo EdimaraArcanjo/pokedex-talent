@@ -3,7 +3,6 @@ import logo from './img/logo.png';
 import './App.css';
 import pokemons from './pokemon.json';
 import PokemonCard from './PokemonCard';
-import Modal from 'react-modal';
 import CardModal from './CardModal';
 
 function App() {
@@ -12,7 +11,7 @@ function App() {
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [allPokemons, setAllPokemons] = useState([]);
-  
+
 
   // Passo 1: Adicione variáveis de estado para a paginação
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +38,7 @@ function App() {
       setFilteredPokemons(allPokemons);
     }
   }, [searchTerm, selectedOption, allPokemons]);
-  
+
 
   // Passo 3: Crie uma função para lidar com a lógica da paginação
   const paginate = (pageNumber) => {
@@ -70,8 +69,8 @@ function App() {
     setSearchTerm('');
   };
 
-   // Função para abrir o modal e definir o Pokémon selecionado
-   const openModal = (pokemon) => {
+  // Função para abrir o modal e definir o Pokémon selecionado
+  const openModal = (pokemon) => {
     setSelectedPokemon(pokemon);
   };
 
@@ -83,7 +82,7 @@ function App() {
   const handleSortChange = (event) => {
     const sortOption = event.target.value;
     let listToSort = filteredPokemons.length !== 0 ? [...filteredPokemons] : [...pokemons.pokemon];
-  
+
     if (sortOption === 'opcao1') {
       // Ordena de A a Z pelo nome
       setFilteredPokemons([...listToSort].sort((a, b) => a.name.localeCompare(b.name)));
@@ -92,16 +91,16 @@ function App() {
       setFilteredPokemons([...listToSort].sort((a, b) => b.name.localeCompare(a.name)));
     }
   };
-  
+
 
   return (
     <>
-    <div className='divGeral'>
-    <div>
-        <img src={logo} className="logo" alt="logo" />
-      </div>
-      <div className="App">
-        <form className='form' onSubmit={handleSearchSubmit}>
+      <div className='divGeral'>
+        <div>
+          <img src={logo} className="logo" alt="logo" />
+        </div>
+        <div className="App">
+          <form className='form' onSubmit={handleSearchSubmit}>
             <input className="inputSearch"
               type="text"
               value={searchTerm}
@@ -109,8 +108,8 @@ function App() {
               placeholder="Digite nome, id ou tipo"
               required
             />
-            <select  className="inputSelect" value={selectedOption} onChange={handleSelectChange}>
-            <option selected value="opcao">Pesquisar por:</option>
+            <select className="inputSelect" value={selectedOption} onChange={handleSelectChange}>
+              <option selected value="opcao">Pesquisar por:</option>
               <option value="opcao1">Tipo</option>
               <option value="opcao2">Nome</option>
               <option value="opcao3">ID</option>
@@ -120,33 +119,33 @@ function App() {
               <option value="opcao1">A - Z</option>
               <option value="opcao2">Z - A</option>
             </select>
-        </form>
-      </div>
-      <div className="pagination">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-      <div className="container">
-        <ul className="pokemon-list">
-          {filteredPokemons.length !== 0
-            ? currentPokemons.map((item) => ( 
+          </form>
+        </div>
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button className="buttonPagination" key={index} onClick={() => paginate(index + 1)}>
+              {index + 1}
+            </button>
+          ))}
+        </div>
+        <div className="container">
+          <ul className="pokemon-list">
+            {filteredPokemons.length !== 0
+              ? currentPokemons.map((item) => (
                 <li key={item.num} onClick={() => openModal(item)}>
                   <PokemonCard pokemon={item} />
                 </li>
               ))
-            : listPokemons.map((item) => ( // Renderiza todos os Pokémon quando a lista filtrada estiver vazia
+              : listPokemons.map((item) => ( // Renderiza todos os Pokémon quando a lista filtrada estiver vazia
                 <li key={item.num} onClick={() => openModal(item)}>
                   <PokemonCard pokemon={item} />
                 </li>
               ))}
-        </ul>
-      </div>
-      </div>
-      
-     
+          </ul >
+        </div >
+      </div >
+
+
       <CardModal selectedPokemon={selectedPokemon} closeModal={closeModal} />
     </>
   );
