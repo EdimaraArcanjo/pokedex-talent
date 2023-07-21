@@ -3,7 +3,6 @@ import logo from './img/logo.png';
 import './App.css';
 import pokemons from './pokemon.json';
 import PokemonCard from './PokemonCard';
-import Modal from 'react-modal';
 import CardModal from './CardModal';
 
 function App() {
@@ -62,8 +61,8 @@ function App() {
     setSearchTerm('');
   };
 
-   // Função para abrir o modal e definir o Pokémon selecionado
-   const openModal = (pokemon) => {
+  // Função para abrir o modal e definir o Pokémon selecionado
+  const openModal = (pokemon) => {
     setSelectedPokemon(pokemon);
   };
 
@@ -75,7 +74,7 @@ function App() {
   const handleSortChange = (event) => {
     const sortOption = event.target.value;
     let listToSort = filteredPokemons.length !== 0 ? [...filteredPokemons] : [...pokemons.pokemon];
-  
+
     if (sortOption === 'opcao1') {
       // Ordena de A a Z pelo nome
       setFilteredPokemons([...listToSort].sort((a, b) => a.name.localeCompare(b.name)));
@@ -84,11 +83,11 @@ function App() {
       setFilteredPokemons([...listToSort].sort((a, b) => b.name.localeCompare(a.name)));
     }
   };
-  
+
 
   return (
     <>
-    <div>
+      <div>
         <img src={logo} className="logo" alt="logo" />
       </div>
       <div className="App">
@@ -130,9 +129,9 @@ function App() {
       </div>
       <div className="container">
         <ul className="pokemon-list">
-          {currentPokemons.map((item) => ( 
+          {currentPokemons.map((item) => (
 
-            
+
             <li key={item.num} onClick={() => openModal(item)}>
               <PokemonCard pokemon={item} />
             </li>
