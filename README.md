@@ -1,40 +1,47 @@
-# pokedex-talent
-# Pokédex
+# Pokedéx!  ![pokeball (1)](https://github.com/EdimaraArcanjo/pokedex-talent/assets/109115688/fe1b775b-8324-42ad-b297-8960e06d53cf)
 
-Esse projeto foi desenvolvido para o Talent fest 2023, tivémos a participação da empresa HCLTech,projeto que consiste num desafio criar uma aplicação web.
-
-
-1.Resumo do Projeto
-
-Pokémon é uma franquia de mídia que pertence a The Pokémon Company, tendo sido criada por Satoshi Tajiri em 1995. Ela é centrada em criaturas ficcionais chamadas "Pokémon", que os seres humanos capturam e os treinam para lutarem entre si com seus ataques de diversos tipos.
-
-A Pokédex (palavra comum no vocabulário dos amantes de Pokémon) é uma enciclopédia virtual que detém todas as espécies de pokémon. O que um usuário pode fazer usando a nossa pokédex:
-
-**Descobrir o mundo Pokémon:\\ explorar e descobrir novos Pokémons.
+Este projeto foi desenvolvido como parte do desafio técnico para a HCL TECH durante o Talent Fest 2023, um evento organizado pela Laboratória Brasil com o objetivo de simular um hackathon. Durante 48 horas intensas, uma equipe de seis pessoas trabalhou arduamente para desenvolver esta aplicação web incrível.
 
 
-2.História do Usuário
+## Índice 👇
 
-​Para entender melhor como construir a aplicação,fizemos uma investigação rápida (pesquisa) e estas são algumas das descobertas.
+* [1. Resumo do projeto 📝 ](#1-resumo-do-projeto)
+* [2. Pesquisa de Desenvolvimento ⚙️](#2-pesquisa-de-desenvolvimento)
+* [3. Funcionalidades💡](#3-funcionalidades)
 
-Os Pokémons têm características únicas que determinam as decisões tomadas pelo
-usuário (tipo, fraqueza, peso, multiplicador, etc.).
-Um mestre Pokémon antes de sair para caçar os Pokémons tem que conhecer os 10
-principais Pokémons que aparecem com mais frequência.
-Os Pokémons têm diferentes tipos e fraquezas em combate. Estas características
-são importantes na escolha do Pokémon mais adequado para sua batalha. Às
-vezes, você tem que escolher aqueles com menos fraquezas e saber de que tipo
-eles são. Portanto, é importante que um mestre de Pokémon seja capaz de
-ordená-los por essas 2 características.
-Os Pokémons evoluem e é importante para um mestre Pokémon saber quantas e
-quais evoluções eles têm antes e depois.
+* [4. Considerações Finais 🫶](#4-funcionalidades)
 
-3.Funcionalidades
 
-*Conhecer os poderes* de diferentes Pokémons.
+***
 
-*Filtrar* pokémons por nomes ou números (id).
-*Ordenar* pokémons por letra ou por número (id).
-## Pesquisa
+## 1. Resumo do projeto 📝
 
-4.Protótipo
+Pokémon é uma icônica franquia de mídia criada por Satoshi Tajiri em 1995 e pertencente à The Pokémon Company. Ela é centrada em criaturas ficcionais chamadas "Pokémon", que os treinadores humanos capturam e treinam para lutarem entre si, utilizando seus diversos ataques.
+A Pokédex é uma enciclopédia virtual que contém informações sobre todas as espécies de pokémon existentes.
+
+
+## 2. Pesquisa de Desenvolvimento ⚙️
+
+Para compreendermos melhor como construir a aplicação, realizamos uma investigação aprofundada e descobrimos algumas informações importantes:
+Cada Pokémon possui características únicas que influenciam as decisões tomadas pelos treinadores, tais como tipo, fraqueza, peso, multiplicador, entre outros. Antes de sair em busca de novos Pokémons, é essencial que um mestre Pokémon conheça os 10 mais frequentes.
+Os Pokémons têm diferentes tipos e fraquezas em combate, o que é crucial para escolher o mais adequado em uma batalha. É importante que um mestre Pokémon seja capaz de ordenar os Pokémons com base em suas características, como tipo e fraqueza. Os Pokémons têm capacidade de evoluir, e saber quantas e quais evoluções estão disponíveis é essencial para um treinador.
+
+
+## 3. Funcionalidades 💡
+
+A nossa aplicação oferece uma série de funcionalidades para que os treinadores possam explorar e aprender mais sobre os Pokémons:
+
+
+* ☑️ Visualizar todos os Pokémons disponíveis na Pokédex.
+* ☑️ Filtrar os Pokémons por nomes ou números (id), tornando a busca mais fácil e rápida.
+* ☑️ Filtrar os Pokémons por tipo, permitindo encontrar Pokémons com características específicas
+* ☑️ Ordenar os Pokémons em ordem alfabética, facilitando a busca por nome.
+* ☑️ Ordenar os Pokémons em ordem crescente ou decrescente com base em suas características, como peso ou fraqueza.
+* ☑️ Obter informações detalhadas sobre cada Pokémon, como peso, altura, habilidades e poderes, para auxiliar nas estratégias de batalha.
+
+## 4.Considerações Finais 🫶
+
+Estamos empolgadas em compartilhar esta aplicação com a comunidade Pokémon e esperamos que ela seja uma ferramenta útil e divertida para todos os treinadores em sua jornada para se tornarem mestres Pokémon.
+Divirta-se explorando a Pokédex e boa sorte em sua jornada para se tornar um verdadeiro mestre Pokémon! 🚀🔥
+  
+
